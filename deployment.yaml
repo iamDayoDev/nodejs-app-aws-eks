@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nova-app-deployment
+  namespace: default
+  labels:
+    app: nova-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nova-app
+      tier: frontend
+      version: 1.0.0
+  template:
+    metadata:
+      labels:
+        app: nova-app
+        tier: frontend
+        version: 1.0.0
+    spec:
+      containers:
+        - name: nova-app-container
+          image: glowbak/nova-app:v1 # Replace with <your-dockerhub-username>/nova-app:v1 if you pushed your own image
+          ports:
+            - containerPort: 3000
