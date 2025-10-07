@@ -1,4 +1,4 @@
-# 🌀 Deploying a Simple Node.js App on AWS EKS
+## Deploying a Simple Node.js App on AWS EKS
 
 ### A Beginner-Friendly and Cost-Effective Guide
 
