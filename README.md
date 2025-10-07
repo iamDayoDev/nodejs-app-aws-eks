@@ -34,4 +34,82 @@ You’ll need the following tools:
 
 ---
 
+## 🚀 Step-by-Step Guide
+### Step 1: Build the Node App
+
+Clone this github repository 
+```bash
+git clone https://github.com/iamDayoDev/nodejs-app-aws-eks.git
+cd nodejs-app-aws-eks
+```
+Then install dependencies and run the app:
+```bash
+npm install
+npm start server.js
+```
+You should see the app running at `http://localhost:3000`.
+
+### Step 2: Dockerize the App
+Build the Docker image with the Dockerfile
+
+```bash
+docker build -t nodejs-eks-app .
+docker run -p 3000:3000 nodejs-eks-app
+```
+### Step 3: Push Image to DockerHub
+
+Tag and push the image to DockerHub (replace `<your-dockerhub-username>` with your actual username):
+```bash 
+docker tag nodejs-eks-app <your-dockerhub-username>/nodejs-eks-app:latest
+docker push <your-dockerhub-username>/nodejs-eks-app:latest
+```
+### Step 4: Create EKS Cluster
+Create a minimal EKS cluster using `eksctl`:
+
+```bash
+eksctl create cluster -f cluster-config-yaml
+```
+This configuration uses the smallest instance type (`t3.micro`) to keep costs low.
+
+### Step 5: Deploy the App to EKS
+Apply the Kubernetes manifests to deploy the app:
+```bash
+kubectl apply -f deployment.yaml
+
+kubectl apply -f service.yaml
+``` 
+### Step 6: Access the App
+Get the service URL:
+```bash
+kubectl get svc
+```
+Use the external IP to access your app in the browser or via curl:
+```bash
+curl http://<EXTERNAL-IP>:3000/health
+```
+### Step 7: Manual Scaling
+Scale the deployment manually:
+```bash
+kubectl scale deployment nodejs-eks-app --replicas=5
+
+kubectl get pods
+```
+Scale Down the Deployment
+```bash
+kubectl scale deployment nodejs-eks-app --replicas=1
+```
+### Step 8: Clean Up Resources
+Delete the EKS cluster to avoid ongoing charges:
+```bash
+eksctl delete cluster -f cluster-config-yaml
+```
+### Future Upgrade 
+For a more advanced setup, consider implementing:
+- **CI/CD Pipelines:** Automate deployments with GitHub Actions or Jenkins
+- **Monitoring & Logging:** Integrate Prometheus and Grafana for monitoring
+- **Auto-scaling:** Configure Horizontal Pod Autoscaler for dynamic scaling
+- **Security Best Practices:** Implement IAM roles, security groups, and network policies
+- **Cost Monitoring:** Use AWS Cost Explorer to track and optimize expenses
+
+
 
