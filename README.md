@@ -54,7 +54,7 @@ Build the Docker image with the Dockerfile
 
 ```bash
 docker build -t nodejs-eks-app .
-docker run -p 3000:3000 nodejs-eks-app
+docker run -p 3000:3000 -d  nodejs-eks-app
 ```
 ### Step 3: Push Image to DockerHub
 
